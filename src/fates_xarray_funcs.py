@@ -50,6 +50,10 @@ def _get_dim_combined(dim1_short, dim2_short):
         dim_combined = "fates_levscag"
     elif dim_combined == "fates_levsclspft":
         dim_combined = "fates_levscpf"
+    elif dim_combined == "fates_levlandusepft":
+        dim_combined = "fates_levlupft"
+    elif dim_combined == "fates_levcanleaf":
+        dim_combined = "fates_levcnlf"
 
     return dim_combined
 
@@ -151,6 +155,20 @@ def scag_to_scls_by_age(scag_var, dataset):
      second argument should be an xarray Dataset that has the FATES age dimension
     (possibly the dataset encompassing the dataarray being transformed)                                                                                                                                                     returns an Xarray DataArray with the size and age dimensions disentangled"""
     return deduplex(dataset, scag_var, "scls", "age", preserve_order=False)
+
+def lupft_to_landuse_by_pft(lupft_var, dataset):
+    """function to reshape a fates multiplexed land use and pft-indexed variable to one indexed by land use class and pft
+     first argument should be an xarray DataArray that has the FATES LUPFT dimension
+     second argument should be an xarray Dataset that has the FATES pft dimension
+    (possibly the dataset encompassing the dataarray being transformed)                                                                                                                                                     returns an Xarray DataArray with the land use and pft dimensions disentangled"""
+    return deduplex(dataset, lupft_var, "landuse", "pft", preserve_order=False)
+
+def cnlf_to_canopy_by_leaf(cnlf_var, dataset):
+    """function to reshape a fates multiplexed canopy and leaf-indexed variable to one indexed by canopy and leaf layer
+     first argument should be an xarray DataArray that has the FATES LUPFT dimension
+     second argument should be an xarray Dataset that has the FATES pft dimension
+    (possibly the dataset encompassing the dataarray being transformed)                                                                                                                                                     returns an Xarray DataArray with the land use and pft dimensions disentangled"""
+    return deduplex(dataset, cnlf_var, "can", "leaf", preserve_order=False)
 
 
 def monthly_to_annual(array):
